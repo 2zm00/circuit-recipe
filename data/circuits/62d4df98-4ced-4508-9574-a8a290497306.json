@@ -1,0 +1,56 @@
+{
+  "id": "62d4df98-4ced-4508-9574-a8a290497306",
+  "name": "LED 점멸 회로",
+  "description": "NPN 트랜지스터로 LED를 제어하는 기본 회로",
+  "createdAt": "2026-05-08T09:47:18.773Z",
+  "updatedAt": "2026-05-08T09:47:18.773Z",
+  "components": [
+    {
+      "id": "r1",
+      "type": "resistor",
+      "label": "R1",
+      "value": "10kΩ",
+      "position": {
+        "x": 100,
+        "y": 100
+      }
+    },
+    {
+      "id": "led1",
+      "type": "led",
+      "label": "LED1",
+      "position": {
+        "x": 250,
+        "y": 100
+      }
+    },
+    {
+      "id": "q1",
+      "type": "transistor_npn",
+      "label": "Q1",
+      "position": {
+        "x": 400,
+        "y": 100
+      }
+    },
+    {
+      "id": "v1",
+      "type": "battery",
+      "label": "V1",
+      "value": "5V",
+      "position": {
+        "x": 550,
+        "y": 100
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "source": "r1",
+      "sourceHandle": null,
+      "target": "led1",
+      "targetHandle": null
+    }
+  ]
+}

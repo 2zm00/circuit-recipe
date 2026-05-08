@@ -1,0 +1,120 @@
+{
+  "id": "1027746e-191f-40bb-9d6c-5027380c49bd",
+  "name": "전압 분배기 + 부하 저항 (테브난)",
+  "description": "V1·R1·R2 분배기의 노드 A에서 테브난 등가 회로를 구하세요. Vth = V1·R2/(R1+R2), Rth = R1‖R2",
+  "createdAt": "2026-05-08T10:25:23.130Z",
+  "updatedAt": "2026-05-08T10:25:23.130Z",
+  "components": [
+    {
+      "id": "vs",
+      "type": "battery",
+      "label": "V1",
+      "value": "10V",
+      "position": {
+        "x": 60,
+        "y": 160
+      }
+    },
+    {
+      "id": "r1",
+      "type": "resistor",
+      "label": "R1",
+      "value": "2kΩ",
+      "position": {
+        "x": 230,
+        "y": 70
+      }
+    },
+    {
+      "id": "r2",
+      "type": "resistor",
+      "label": "R2",
+      "value": "3kΩ",
+      "position": {
+        "x": 440,
+        "y": 70
+      }
+    },
+    {
+      "id": "rl",
+      "type": "resistor",
+      "label": "RL",
+      "value": "6kΩ",
+      "position": {
+        "x": 650,
+        "y": 160
+      }
+    },
+    {
+      "id": "g1",
+      "type": "ground",
+      "label": "GND1",
+      "position": {
+        "x": 60,
+        "y": 390
+      }
+    },
+    {
+      "id": "g2",
+      "type": "ground",
+      "label": "GND2",
+      "position": {
+        "x": 440,
+        "y": 390
+      }
+    },
+    {
+      "id": "g3",
+      "type": "ground",
+      "label": "GND3",
+      "position": {
+        "x": 650,
+        "y": 390
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "source": "vs",
+      "sourceHandle": "bottom",
+      "target": "r1",
+      "targetHandle": null
+    },
+    {
+      "id": "w2",
+      "source": "r1",
+      "sourceHandle": null,
+      "target": "r2",
+      "targetHandle": null
+    },
+    {
+      "id": "w3",
+      "source": "r1",
+      "sourceHandle": null,
+      "target": "rl",
+      "targetHandle": null
+    },
+    {
+      "id": "w4",
+      "source": "r2",
+      "sourceHandle": null,
+      "target": "g2",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w5",
+      "source": "rl",
+      "sourceHandle": null,
+      "target": "g3",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w6",
+      "source": "g1",
+      "sourceHandle": "bottom",
+      "target": "vs",
+      "targetHandle": "top"
+    }
+  ]
+}

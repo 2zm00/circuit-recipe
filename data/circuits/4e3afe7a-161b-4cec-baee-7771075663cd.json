@@ -1,0 +1,154 @@
+{
+  "id": "4e3afe7a-161b-4cec-baee-7771075663cd",
+  "name": "π형 저항망 (노튼 등가 분석)",
+  "description": "노드 A·B 간 테브난/노튼 등가를 구하기 좋은 π형 네트워크. R3이 직렬, R2·R4가 각 노드의 션트 저항입니다.",
+  "createdAt": "2026-05-08T10:22:35.017Z",
+  "updatedAt": "2026-05-08T10:24:20.670Z",
+  "components": [
+    {
+      "id": "vs",
+      "type": "battery",
+      "label": "Vs",
+      "value": "15V",
+      "position": {
+        "x": 50,
+        "y": 190
+      }
+    },
+    {
+      "id": "r1",
+      "type": "resistor",
+      "label": "R1",
+      "value": "2kΩ",
+      "position": {
+        "x": 200,
+        "y": 80
+      }
+    },
+    {
+      "id": "r2",
+      "type": "resistor",
+      "label": "R2",
+      "value": "6kΩ",
+      "position": {
+        "x": 360,
+        "y": 190
+      }
+    },
+    {
+      "id": "r3",
+      "type": "resistor",
+      "label": "R3",
+      "value": "1kΩ",
+      "position": {
+        "x": 510,
+        "y": 80
+      }
+    },
+    {
+      "id": "r4",
+      "type": "resistor",
+      "label": "R4",
+      "value": "4kΩ",
+      "position": {
+        "x": 680,
+        "y": 190
+      }
+    },
+    {
+      "id": "g1",
+      "type": "ground",
+      "label": "GND",
+      "value": "",
+      "position": {
+        "x": 50,
+        "y": 420
+      }
+    },
+    {
+      "id": "g2",
+      "type": "ground",
+      "label": "GND",
+      "value": "",
+      "position": {
+        "x": 360,
+        "y": 420
+      }
+    },
+    {
+      "id": "g3",
+      "type": "ground",
+      "label": "GND",
+      "value": "",
+      "position": {
+        "x": 680,
+        "y": 420
+      }
+    }
+  ],
+  "wires": [
+    {
+      "id": "w1",
+      "source": "vs",
+      "sourceHandle": "bottom",
+      "target": "r1",
+      "targetHandle": null
+    },
+    {
+      "id": "w2",
+      "source": "r1",
+      "sourceHandle": null,
+      "target": "r2",
+      "targetHandle": null
+    },
+    {
+      "id": "w3",
+      "source": "r2",
+      "sourceHandle": null,
+      "target": "g2",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w4",
+      "source": "r1",
+      "sourceHandle": null,
+      "target": "r3",
+      "targetHandle": null
+    },
+    {
+      "id": "w5",
+      "source": "r3",
+      "sourceHandle": null,
+      "target": "r4",
+      "targetHandle": null
+    },
+    {
+      "id": "w6",
+      "source": "r4",
+      "sourceHandle": null,
+      "target": "g3",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w7",
+      "source": "g1",
+      "sourceHandle": "bottom",
+      "target": "vs",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w8",
+      "source": "g2",
+      "sourceHandle": "bottom",
+      "target": "g1",
+      "targetHandle": "top"
+    },
+    {
+      "id": "w9",
+      "source": "g3",
+      "sourceHandle": "bottom",
+      "target": "g1",
+      "targetHandle": "top"
+    }
+  ]
+}
