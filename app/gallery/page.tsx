@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import CircuitCard from "@/components/CircuitCard";
 import { CircuitSummary } from "@/types/circuit";
+import { getAllCircuits, deleteCircuit } from "@/lib/circuitsStorage";
 
 export default function GalleryPage() {
   const [circuits, setCircuits] = useState<CircuitSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadCircuits = () => {
-    fetch("/api/circuits")
-      .then((r) => r.json())
-      .then((data) => { setCircuits(data); setLoading(false); });
+    setCircuits(getAllCircuits());
+    setLoading(false);
   };
 
   useEffect(() => { loadCircuits(); }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (id: string) => {
     if (!confirm("이 설계도를 삭제하시겠습니까?")) return;
-    await fetch(`/api/circuits/${id}`, { method: "DELETE" });
+    deleteCircuit(id);
     loadCircuits();
   };
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import type { Node, Edge } from "@xyflow/react";
 import { CircuitSchema, CircuitComponent, CircuitWire } from "@/types/circuit";
+import { getCircuit } from "@/lib/circuitsStorage";
 import type { CircuitNodeData } from "@/components/nodes/CircuitNode";
 
 const CircuitDesigner = dynamic(() => import("@/components/CircuitDesigner"), { ssr: false });
@@ -44,14 +45,13 @@ export default function CircuitDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/circuits/${id}`)
-      .then((r) => r.json())
-      .then((schema: CircuitSchema) => {
-        setCircuit(schema);
-        setNodes(toFlowNodes(schema.components));
-        setEdges(toFlowEdges(schema.wires));
-        setLoading(false);
-      });
+    const schema = getCircuit(id);
+    if (schema) {
+      setCircuit(schema);
+      setNodes(toFlowNodes(schema.components));
+      setEdges(toFlowEdges(schema.wires));
+    }
+    setLoading(false);
   }, [id]);
 
   if (loading) {

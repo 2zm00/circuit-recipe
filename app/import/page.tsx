@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircuitSchema } from "@/types/circuit";
+import { saveCircuit } from "@/lib/circuitsStorage";
+import { v4 as uuidv4 } from "uuid";
 
 export default function ImportPage() {
   const router = useRouter();
@@ -47,16 +49,18 @@ export default function ImportPage() {
     if (file) processFile(file);
   };
 
-  const handleImport = async () => {
+  const handleImport = () => {
     if (!preview) return;
     setImporting(true);
-    const res = await fetch("/api/circuits", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(preview),
-    });
-    const saved = await res.json();
-    router.push(`/circuit/${saved.id}`);
+    const now = new Date().toISOString();
+    const schema: CircuitSchema = {
+      ...preview,
+      id: preview.id ?? uuidv4(),
+      createdAt: preview.createdAt ?? now,
+      updatedAt: now,
+    };
+    saveCircuit(schema);
+    router.push(`/circuit/${schema.id}`);
   };
 
   return (

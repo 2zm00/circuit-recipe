@@ -18,7 +18,8 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { v4 as uuidv4 } from "uuid";
-import { ComponentType, COMPONENT_META } from "@/types/circuit";
+import { ComponentType, COMPONENT_META, CircuitSchema } from "@/types/circuit";
+import { saveCircuit, getCircuit } from "@/lib/circuitsStorage";
 import CircuitNode, { CircuitNodeData } from "./nodes/CircuitNode";
 import AnimatedFlowEdge from "./AnimatedFlowEdge";
 import ComponentInventory from "./ComponentInventory";
@@ -118,7 +119,7 @@ export default function CircuitDesigner({
     setEditLabel(null);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!rfInstance) return;
     setSaving(true);
     const flow = rfInstance.toObject();
@@ -133,10 +134,15 @@ export default function CircuitDesigner({
       target: e.target,
       targetHandle: e.targetHandle ?? null,
     }));
-    const body = { id: circuitId, name, description, components, wires };
-    const url = circuitId ? `/api/circuits/${circuitId}` : "/api/circuits";
-    const method = circuitId ? "PUT" : "POST";
-    await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const now = new Date().toISOString();
+    const id = circuitId ?? uuidv4();
+    const existing = circuitId ? getCircuit(circuitId) : null;
+    const schema: CircuitSchema = {
+      id, name, description, components, wires,
+      createdAt: existing?.createdAt ?? now,
+      updatedAt: now,
+    };
+    saveCircuit(schema);
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);

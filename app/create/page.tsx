@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import type { Node, Edge } from "@xyflow/react";
 import { CircuitSchema, CircuitComponent, CircuitWire } from "@/types/circuit";
+import { getCircuit } from "@/lib/circuitsStorage";
 import type { CircuitNodeData } from "@/components/nodes/CircuitNode";
 
 const CircuitDesigner = dynamic(() => import("@/components/CircuitDesigner"), { ssr: false });
@@ -40,14 +41,13 @@ function CreatePageInner() {
 
   useEffect(() => {
     if (!id) return;
-    fetch(`/api/circuits/${id}`)
-      .then((r) => r.json())
-      .then((schema: CircuitSchema) => {
-        setInitialNodes(toFlowNodes(schema.components));
-        setInitialEdges(toFlowEdges(schema.wires));
-        setMeta({ id: schema.id, name: schema.name, description: schema.description });
-        setLoading(false);
-      });
+    const schema = getCircuit(id);
+    if (schema) {
+      setInitialNodes(toFlowNodes(schema.components));
+      setInitialEdges(toFlowEdges(schema.wires));
+      setMeta({ id: schema.id, name: schema.name, description: schema.description });
+    }
+    setLoading(false);
   }, [id]);
 
   if (loading) {

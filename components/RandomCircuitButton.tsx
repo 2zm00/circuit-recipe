@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getRandomPreset } from "@/lib/presetCircuits";
+import { saveCircuit } from "@/lib/circuitsStorage";
+import { v4 as uuidv4 } from "uuid";
 
 const CIRCUIT_NAMES = [
   "전압 분배기 (테브난)",
@@ -18,17 +20,21 @@ export default function RandomCircuitButton() {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setLoading(true);
     const preset = getRandomPreset();
     setPreview(preset.name);
 
-    const res = await fetch("/api/circuits", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(preset),
+    const now = new Date().toISOString();
+    const saved = saveCircuit({
+      id: uuidv4(),
+      name: preset.name,
+      description: preset.description,
+      components: preset.components,
+      wires: preset.wires,
+      createdAt: now,
+      updatedAt: now,
     });
-    const saved = await res.json();
     router.push(`/create?id=${saved.id}`);
   };
 
