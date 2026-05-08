@@ -59,15 +59,15 @@ function CreatePageInner() {
   return (
     <div className="h-screen flex flex-col">
       <header className="flex items-center gap-3 px-4 py-2 bg-white border-b border-gray-200 flex-shrink-0">
-        <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+        <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
           ← 홈
         </Link>
         <span className="text-gray-300">|</span>
-        <Link href="/gallery" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
-          설계도 목록
+        <Link href="/gallery" className="text-sm text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
+          목록
         </Link>
         <div className="flex-1" />
-        <span className="text-sm text-gray-400">노드 더블클릭으로 레이블/값 편집</span>
+        <span className="text-xs text-gray-400 hidden sm:block">더블클릭으로 레이블/값 편집</span>
       </header>
       <div className="flex-1 min-h-0">
         <CircuitDesigner

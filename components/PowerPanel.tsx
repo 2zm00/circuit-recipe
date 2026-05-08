@@ -39,7 +39,7 @@ export default function PowerPanel() {
   const totalConsumedPower = current !== null ? current * current * totalResistance : null;
 
   return (
-    <div className="absolute bottom-4 left-4 z-10 w-72 bg-white/95 backdrop-blur border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+    <div className="absolute bottom-4 left-4 z-10 w-[calc(100%-2rem)] max-w-72 bg-white/95 backdrop-blur border border-gray-200 rounded-xl shadow-lg overflow-hidden">
       <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
         <span className="text-xs font-semibold text-gray-700 uppercase tracking-wide">전력 분석</span>
         {current !== null && (

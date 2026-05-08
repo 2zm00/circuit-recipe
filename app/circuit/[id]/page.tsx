@@ -69,27 +69,27 @@ export default function CircuitDetailPage() {
 
   return (
     <div className="h-screen flex flex-col">
-      <header className="flex items-center gap-3 px-6 py-3 bg-white border-b border-gray-200 flex-shrink-0">
-        <Link href="/gallery" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+      <header className="flex items-center gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-white border-b border-gray-200 flex-shrink-0">
+        <Link href="/gallery" className="text-sm text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
           ← 목록
         </Link>
         <span className="text-gray-300">|</span>
         <div className="flex-1 min-w-0">
-          <h1 className="text-base font-semibold text-gray-900 truncate">{circuit.name}</h1>
+          <h1 className="text-sm sm:text-base font-semibold text-gray-900 truncate">{circuit.name}</h1>
           {circuit.description && (
-            <p className="text-xs text-gray-500 truncate">{circuit.description}</p>
+            <p className="text-xs text-gray-500 truncate hidden sm:block">{circuit.description}</p>
           )}
         </div>
-        <div className="flex items-center gap-4 flex-shrink-0">
-          <span className="text-xs text-gray-400 hidden sm:block">
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          <span className="text-xs text-gray-400 hidden md:block">
             {formatDate(circuit.updatedAt)} 업데이트
           </span>
-          <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">
+          <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600 whitespace-nowrap">
             {circuit.components.length}개 부품
           </span>
           <Link
             href={`/create?id=${circuit.id}`}
-            className="text-sm px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            className="text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
           >
             편집하기
           </Link>

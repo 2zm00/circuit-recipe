@@ -53,6 +53,7 @@ export default function CircuitDesigner({
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [editLabel, setEditLabel] = useState<{ id: string; label: string; value: string } | null>(null);
+  const [inventoryOpen, setInventoryOpen] = useState(true);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   const onConnect = useCallback(
@@ -96,6 +97,34 @@ export default function CircuitDesigner({
       setNodes((nds) => [...nds, newNode]);
     },
     [rfInstance, nodes, setNodes]
+  );
+
+  const handleAddComponent = useCallback(
+    (type: ComponentType) => {
+      if (!rfInstance || !reactFlowWrapper.current) return;
+      const bounds = reactFlowWrapper.current.getBoundingClientRect();
+      // 화면 중앙 기준, 겹치지 않도록 약간의 랜덤 오프셋 추가
+      const jitter = () => (Math.random() - 0.5) * 120;
+      const position = rfInstance.screenToFlowPosition({
+        x: bounds.width / 2 + jitter(),
+        y: bounds.height / 2 + jitter(),
+      });
+      const prefixMap: Record<ComponentType, string> = {
+        resistor: "R", capacitor: "C", led: "LED", battery: "V",
+        switch: "S", ground: "GND", transistor_npn: "Q", transistor_pnp: "Q",
+        inductor: "L", diode: "D",
+      };
+      const counter = nodes.filter((n) => (n.data as CircuitNodeData).type === type).length + 1;
+      const label = `${prefixMap[type]}${counter}`;
+      const newNode: Node = {
+        id: uuidv4(),
+        type: "circuitNode",
+        position,
+        data: { type, label, value: "" } satisfies CircuitNodeData,
+      };
+      setNodes((nds) => [...nds, newNode]);
+    },
+    [rfInstance, reactFlowWrapper, nodes, setNodes]
   );
 
   const onNodeDoubleClick = useCallback(
@@ -169,33 +198,40 @@ export default function CircuitDesigner({
 
   return (
     <div className="flex h-full">
-      {!readOnly && <ComponentInventory />}
+      {!readOnly && (
+        <ComponentInventory
+          isOpen={inventoryOpen}
+          onToggle={() => setInventoryOpen((o) => !o)}
+          onAdd={handleAddComponent}
+        />
+      )}
 
       <div className="flex-1 flex flex-col min-w-0">
         {!readOnly && (
-          <div className="flex items-center gap-3 px-4 py-2 border-b border-gray-200 bg-white">
+          <div className="flex flex-wrap items-center gap-2 px-3 py-2 border-b border-gray-200 bg-white">
             <input
-              className="flex-1 text-sm font-semibold border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="flex-1 min-w-[120px] text-sm font-semibold border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-300"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="설계도 이름"
             />
             <input
-              className="flex-1 text-sm border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="flex-1 min-w-[120px] text-sm border border-gray-200 rounded px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-300 hidden sm:block"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="설명 (선택)"
             />
             <button
               onClick={handleExport}
-              className="text-sm px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors"
+              className="text-xs sm:text-sm px-2.5 sm:px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors whitespace-nowrap"
             >
-              JSON 내보내기
+              <span className="hidden sm:inline">JSON 내보내기</span>
+              <span className="sm:hidden">내보내기</span>
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className={`text-sm px-4 py-1.5 rounded font-medium transition-colors ${
+              className={`text-xs sm:text-sm px-3 sm:px-4 py-1.5 rounded font-medium transition-colors whitespace-nowrap ${
                 saved
                   ? "bg-green-500 text-white"
                   : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -222,6 +258,10 @@ export default function CircuitDesigner({
             nodesDraggable={!readOnly}
             nodesConnectable={!readOnly}
             elementsSelectable={!readOnly}
+            panOnScroll
+            panOnScrollSpeed={0.8}
+            zoomOnPinch
+            zoomOnScroll={false}
             defaultEdgeOptions={{ type: "animatedFlow" }}
             fitView
             className="bg-gray-50"

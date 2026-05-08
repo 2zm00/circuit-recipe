@@ -25,27 +25,29 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+      <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
               ← 홈
             </Link>
             <span className="text-gray-300">|</span>
-            <h1 className="text-lg font-semibold text-gray-900">회로 설계도 목록</h1>
+            <h1 className="text-base sm:text-lg font-semibold text-gray-900 truncate">회로 설계도 목록</h1>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3 flex-shrink-0">
             <Link
               href="/import"
-              className="text-sm px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors"
+              className="text-xs sm:text-sm px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors whitespace-nowrap"
             >
-              JSON 가져오기
+              <span className="hidden sm:inline">JSON 가져오기</span>
+              <span className="sm:hidden">가져오기</span>
             </Link>
             <Link
               href="/create"
-              className="text-sm px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+              className="text-xs sm:text-sm px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors whitespace-nowrap"
             >
-              새 설계도 만들기
+              <span className="hidden sm:inline">새 설계도 만들기</span>
+              <span className="sm:hidden">만들기</span>
             </Link>
           </div>
         </div>
